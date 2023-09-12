@@ -1,6 +1,6 @@
 setup:
 	# brew
-	brew install rtx nvim lima docker docker-compose
+	brew tap hashicorp/tap && brew install rtx nvim lima docker docker-compose hashicorp/tap/terraform
 	# git
 	# git-completion
 	mkdir ~/.zsh/completion
