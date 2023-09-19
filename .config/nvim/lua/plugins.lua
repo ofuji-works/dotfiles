@@ -4,7 +4,20 @@ return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  use {'neoclide/coc.nvim', branch = "release"}
+  use {
+		'neoclide/coc.nvim',
+		branch = "release",
+		config = function ()
+			vim.g.coc_global_extensions = {
+				"coc-json",
+				"coc-rust-analyzer",
+				"coc-tsserver",
+				"coc-prettier",
+				"coc-eslint",
+				"coc-css",
+			}
+		end
+	}
 
   -- filer
   use 'lambdalisue/fern.vim'
