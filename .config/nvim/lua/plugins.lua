@@ -19,6 +19,14 @@ return require('packer').startup(function(use)
 		end
 	}
 
+	-- rust
+	use {
+		'rust-lang/rust.vim',
+		config = function ()
+			vim.g.rustfmt_autosave = 1
+		end
+	}
+
   -- filer
   use 'lambdalisue/fern.vim'
 
