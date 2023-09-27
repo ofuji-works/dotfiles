@@ -1,92 +1,97 @@
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+-- lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-  use {
-		'neoclide/coc.nvim',
-		branch = "release",
-		config = function ()
-			vim.g.coc_global_extensions = {
-				"coc-json",
-				"coc-rust-analyzer",
-				"coc-tsserver",
-				"coc-prettier",
-				"coc-eslint",
-				"coc-css",
-			}
-		end
-	}
-
+require("lazy").setup({
 	-- rust
-	use {
+	{
 		'rust-lang/rust.vim',
+		lazy = false,
 		config = function ()
 			vim.g.rustfmt_autosave = 1
 		end
+	},
+	{
+		'lambdalisue/fern.vim',
+		lazy = false,
+	},
+	{
+		'rust-lang/rust.vim',
+		lazy = false,
+		config = function ()
+			vim.g.rustfmt_autosave = 1
+		end
+	},
+	{
+		 'lambdalisue/fern.vim',
+		 lazy = false,
+		 dependencies = {
+			{ 'lambdalisue/nerdfont.vim' },
+			{ 'lambdalisue/fern-renderer-nerdfont.vim' },
+			{ 'lambdalisue/fern-hijack.vim' },
+		 },
+		 config = function()
+			 vim.api.nvim_exec([[ let g:fern#renderer = "nerdfont" ]], false)
+    end
+	},
+  {
+    'nvim-telescope/telescope.nvim',
+		tag = '0.1.2',
+		lazy = false,
+    dependencies = { 'nvim-lua/plenary.nvim' }, 
+  },
+	{
+    "williamboman/mason.nvim",
+		lazy = false,
+	},
+	{
+		'williamboman/mason-lspconfig.nvim',
+		lazy = false,
+	},
+	{
+		'neovim/nvim-lspconfig',
+		lazy = false,
+	},
+	{
+		'simeji/winresizer',
+		keys = {
+			'<c-e>',
+		},
+		lazy = false,
+	},
+	{
+  	"folke/noice.nvim",
+  	event = "VeryLazy",
+  	opts = {
+    	-- add any options here
+  	},
+  	dependencies = {
+    	-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+    	"MunifTanjim/nui.nvim",
+    	-- OPTIONAL:
+    	--   `nvim-notify` is only needed, if you want to use the notification view.
+    	--   If not available, we use `mini` as the fallback
+    	"rcarriga/nvim-notify",
+    }
+	},
+	{
+ 		"hrsh7th/nvim-cmp",
+		lazy = false,
+		dependencies = {
+			{ 'hrsh7th/cmp-nvim-lsp' },
+		},
 	}
+})
 
-  -- filer
-  use 'lambdalisue/fern.vim'
-
-  -- telescope
-  use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.2',
-    requires = { {'nvim-lua/plenary.nvim'} } 
-  }
-
-  -- Simple plugins can be specified as strings
-  use 'rstacruz/vim-closer'
-
-  -- Lazy loading:
-  -- Load on specific commands
-  use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
-
-  -- Load on an autocommand event
-  use {'andymass/vim-matchup', event = 'VimEnter'}
-
-  -- Load on a combination of conditions: specific filetypes or commands
-  -- Also run code after load (see the "config" key)
-  use {
-    'w0rp/ale',
-    ft = {'sh', 'zsh', 'bash', 'c', 'cpp', 'cmake', 'html', 'markdown', 'racket', 'vim', 'tex'},
-    cmd = 'ALEEnable',
-    config = 'vim.cmd[[ALEEnable]]'
-  }
-
-  -- Plugins can have dependencies on other plugins
-  use {
-    'haorenW1025/completion-nvim',
-    opt = true,
-    requires = {{'hrsh7th/vim-vsnip', opt = true}, {'hrsh7th/vim-vsnip-integ', opt = true}}
-  }
-
-  -- You can specify rocks in isolation
-  use_rocks 'penlight'
-  use_rocks {'lua-resty-http', 'lpeg'}
-
-  -- Plugins can have post-install/update hooks
-  use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
-
-  -- Post-install/update hook with call of vimscript function with argument
-  use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
-
-  -- Use specific branch, dependency and run lua file after load
-  use {
-    'glepnir/galaxyline.nvim', branch = 'main', config = function() require'statusline' end,
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
-
-  -- Use dependency and run lua function after load
-  use {
-    'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
-    config = function() require('gitsigns').setup() end
-  }
-
-  -- You can specify multiple plugins in a single call
-  use {'tjdevries/colorbuddy.vim', {'nvim-treesitter/nvim-treesitter', opt = true}}
-
-  -- You can alias plugin names
-  use {'dracula/vim', as = 'dracula'}
-end)

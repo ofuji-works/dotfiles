@@ -1,6 +1,6 @@
 setup:
 	# brew
-	brew tap hashicorp/tap && brew install rtx nvim lima docker docker-compose hashicorp/tap/terraform
+	brew tap hashicorp/tap brew tap homebrew/cask-fonts && brew install font-hack-nerd-font rtx nvim lima docker docker-compose hashicorp/tap/terraform
 	# git
 	# git-completion
 	mkdir ~/.zsh/completion
@@ -11,3 +11,4 @@ setup:
 	# packer install
 	git clone --depth 1 https://github.com/wbthomason/packer.nvim\
 		~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	# symbolic link
