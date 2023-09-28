@@ -24,10 +24,6 @@ require("lazy").setup({
 		end
 	},
 	{
-		'lambdalisue/fern.vim',
-		lazy = false,
-	},
-	{
 		'rust-lang/rust.vim',
 		lazy = false,
 		config = function ()
@@ -43,7 +39,13 @@ require("lazy").setup({
 			{ 'lambdalisue/fern-hijack.vim' },
 		 },
 		 config = function()
-			 vim.api.nvim_exec([[ let g:fern#renderer = "nerdfont" ]], false)
+			vim.api.nvim_exec(
+			 	[[
+					let g:fern#renderer = "nerdfont"
+					let g:fern#default_hidden = 1 
+				]],
+				false
+			)
     end
 	},
   {
