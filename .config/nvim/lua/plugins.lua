@@ -1,5 +1,3 @@
-vim.cmd [[packadd packer.nvim]]
-
 -- lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -24,25 +22,24 @@ require("lazy").setup({
 		end
 	},
 	{
-		'rust-lang/rust.vim',
-		lazy = false,
-		config = function ()
-			vim.g.rustfmt_autosave = 1
-		end
-	},
-	{
 		 'lambdalisue/fern.vim',
 		 lazy = false,
 		 dependencies = {
 			{ 'lambdalisue/nerdfont.vim' },
 			{ 'lambdalisue/fern-renderer-nerdfont.vim' },
 			{ 'lambdalisue/fern-hijack.vim' },
+			{ 'lambdalisue/glyph-palette.vim' },
 		 },
 		 config = function()
+			vim.g["fern#renderer"] = "nerdfont"
+			vim.g["fern#default_hidden"] = 1
 			vim.api.nvim_exec(
 			 	[[
-					let g:fern#renderer = "nerdfont"
-					let g:fern#default_hidden = 1 
+					augroup my-glyph-palette
+  					autocmd! *
+  					autocmd FileType fern call glyph_palette#apply()
+  					autocmd FileType nerdtree,startify call glyph_palette#apply()
+					augroup END
 				]],
 				false
 			)
