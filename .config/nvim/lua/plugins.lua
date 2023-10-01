@@ -115,6 +115,14 @@ require("lazy").setup({
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "saadparwaiz1/cmp_luasnip" },
 		},
+	},
+	{
+		'simrat39/rust-tools.nvim',
+		lazy = false,
+	},
+	{
+		'jose-elias-alvarez/typescript.nvim',
+		lazy = false,
 	}
 })
 
