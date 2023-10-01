@@ -61,6 +61,27 @@ require("lazy").setup({
 	},
 	{
 		'neovim/nvim-lspconfig',
+		config = function ()
+			local lspconfig = require('lspconfig')
+			local util = "lspconfig/util"
+			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+			lspconfig.rust_analyzer.setup {
+				filetypes = {"rust"},
+				capabilities = capabilities,
+				-- root_dir = util.root_pattern("Cargo.toml"),
+ 	 			settings = {
+    			['rust-analyzer'] = {
+						cargo = {
+							allFeatures = true
+						}
+					},
+  			},
+			}
+
+			lspconfig.tsserver.setup {}
+
+		end,
 		lazy = false,
 	},
 	{
@@ -90,6 +111,8 @@ require("lazy").setup({
 		lazy = false,
 		dependencies = {
 			{ 'hrsh7th/cmp-nvim-lsp' },
+			{ "hrsh7th/cmp-buffer" },
+			{ "saadparwaiz1/cmp_luasnip" },
 		},
 	}
 })
