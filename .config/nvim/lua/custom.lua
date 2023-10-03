@@ -13,6 +13,18 @@ vim.api.nvim_set_keymap("t", "<C-w>j", '<C-\\><C-n><C-w>j', { noremap = true, de
 vim.api.nvim_set_keymap("t", "<C-w>k", '<C-\\><C-n><C-w>k', { noremap = true, desc = '<C-w>kでバッファ移動' })
 vim.api.nvim_set_keymap("t", "<C-w>l", '<C-\\><C-n><C-w>l', { noremap = true, desc = '<C-w>lでバッファ移動' })
 
+local function on_cursor_hold()
+  if vim.lsp.buf.server_ready() then
+    vim.diagnostic.open_float()
+  end
+end
+
+local diagnostic_hover_augroup_name = "lspconfig-diagnostic"
+vim.api.nvim_set_option('updatetime', 500)
+vim.api.nvim_create_augroup(diagnostic_hover_augroup_name, { clear = true })
+vim.api.nvim_create_autocmd({ "CursorHold" }, { group = diagnostic_hover_augroup_name, callback = on_cursor_hold })
+
+
 require("mason").setup({
     ui = {
         icons = {

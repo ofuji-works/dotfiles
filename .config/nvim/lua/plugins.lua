@@ -112,7 +112,7 @@ require("lazy").setup({
 		dependencies = {
 			{ 'hrsh7th/cmp-nvim-lsp' },
 			{ "hrsh7th/cmp-buffer" },
-			{ "saadparwaiz1/cmp_luasnip" },
+			{ 'L3MON4D3/LuaSnip' },
 			{ "saadparwaiz1/cmp_luasnip" },
 		},
 	},
@@ -122,6 +122,12 @@ require("lazy").setup({
 	},
 	{
 		'jose-elias-alvarez/typescript.nvim',
+		lazy = false,
+	},
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
 		lazy = false,
 	}
 })
