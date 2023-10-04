@@ -132,6 +132,16 @@ require("lazy").setup({
 		config = function()
 			vim.cmd([[colorscheme catppuccin]])
 		end
-	}
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
+	},
 })
 
