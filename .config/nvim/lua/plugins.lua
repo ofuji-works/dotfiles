@@ -22,9 +22,9 @@ require("lazy").setup({
 		end
 	},
 	{
-		 'lambdalisue/fern.vim',
-		 lazy = false,
-		 dependencies = {
+		'lambdalisue/fern.vim',
+		lazy = false,
+		dependencies = {
 			{ 'lambdalisue/nerdfont.vim' },
 			{ 'lambdalisue/fern-renderer-nerdfont.vim' },
 			{ 'lambdalisue/fern-hijack.vim' },
@@ -34,7 +34,7 @@ require("lazy").setup({
 			vim.g["fern#renderer"] = "nerdfont"
 			vim.g["fern#default_hidden"] = 1
 			vim.api.nvim_exec(
-			 	[[
+				[[
 					augroup my-glyph-palette
   					autocmd! *
   					autocmd FileType fern call glyph_palette#apply()
@@ -70,7 +70,7 @@ require("lazy").setup({
 				filetypes = {"rust"},
 				capabilities = capabilities,
 				-- root_dir = util.root_pattern("Cargo.toml"),
- 	 			settings = {
+				settings = {
     			['rust-analyzer'] = {
 						cargo = {
 							allFeatures = true
@@ -143,5 +143,10 @@ require("lazy").setup({
 		end,
 		ft = { "markdown" },
 	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {} 
+	}	
 })
 

@@ -323,3 +323,6 @@ require("typescript").setup({
     },
   },
 })
+
+require("ibl").setup()
+

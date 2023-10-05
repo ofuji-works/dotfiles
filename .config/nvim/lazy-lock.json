@@ -8,6 +8,7 @@
   "fern-renderer-nerdfont.vim": { "branch": "master", "commit": "1e90a78ab5510fbcedc85abeb9a251d978726935" },
   "fern.vim": { "branch": "main", "commit": "e295f0df5735a042f63b05218118646809ba9d27" },
   "glyph-palette.vim": { "branch": "master", "commit": "e9d099dcece92959b737bcf211b47b2dc425a3e4" },
+  "indent-blankline.nvim": { "branch": "master", "commit": "da789082a43e2bb8930c7be0e265ce37768394d8" },
   "lazy.nvim": { "branch": "main", "commit": "7ca3bdb566c3ba4492f2d22b37c2c9e26f09470f" },
   "markdown-preview.nvim": { "branch": "master", "commit": "02cc3874738bc0f86e4b91f09b8a0ac88aef8e96" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "2451adb9bdb0fd32140bf3aa8dbc17ff60050db3" },
