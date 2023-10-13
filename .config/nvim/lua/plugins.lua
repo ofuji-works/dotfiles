@@ -16,7 +16,6 @@ require("lazy").setup({
 	-- rust
 	{
 		'rust-lang/rust.vim',
-		lazy = false,
 		config = function ()
 			vim.g.rustfmt_autosave = 1
 		end
@@ -48,7 +47,6 @@ require("lazy").setup({
   {
     'nvim-telescope/telescope.nvim',
 		tag = '0.1.2',
-		lazy = false,
     dependencies = { 'nvim-lua/plenary.nvim' }, 
   },
 	{
@@ -89,7 +87,6 @@ require("lazy").setup({
 		keys = {
 			'<c-e>',
 		},
-		lazy = false,
 	},
 	{
   	"folke/noice.nvim",
@@ -118,11 +115,9 @@ require("lazy").setup({
 	},
 	{
 		'simrat39/rust-tools.nvim',
-		lazy = false,
 	},
 	{
 		'jose-elias-alvarez/typescript.nvim',
-		lazy = false,
 	},
 	{
 		"catppuccin/nvim",
@@ -150,7 +145,6 @@ require("lazy").setup({
 	},
 	{
   	"github/copilot.vim",
-  	lazy=false,
 	},
 })
 
