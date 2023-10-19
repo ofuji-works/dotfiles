@@ -28,6 +28,7 @@ require("lazy").setup({
 			{ 'lambdalisue/fern-renderer-nerdfont.vim' },
 			{ 'lambdalisue/fern-hijack.vim' },
 			{ 'lambdalisue/glyph-palette.vim' },
+			{ 'lambdalisue/fern-git-status.vim' },
 		 },
 		 config = function()
 			vim.g["fern#renderer"] = "nerdfont"
@@ -78,6 +79,8 @@ require("lazy").setup({
 			}
 
 			lspconfig.tsserver.setup {}
+
+			lspconfig.eslint.setup {}
 
 		end,
 		lazy = false,
