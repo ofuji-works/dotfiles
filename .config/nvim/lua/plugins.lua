@@ -179,6 +179,7 @@ require("lazy").setup({
 		config = function()
 			vim.g.copilot_filetypes = {
 				markdown = true,
+				yaml = true,
 			}
 		end,
 	},
