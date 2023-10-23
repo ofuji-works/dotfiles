@@ -60,6 +60,7 @@ require("lazy").setup({
 	},
 	{
 		'neovim/nvim-lspconfig',
+		dependencies = { 'creativenull/efmls-configs-nvim' },
 		config = function ()
 			local lspconfig = require('lspconfig')
 			local util = "lspconfig/util"
@@ -79,8 +80,35 @@ require("lazy").setup({
 			}
 
 			lspconfig.tsserver.setup {}
-
 			lspconfig.eslint.setup {}
+
+			local eslint = require('efmls-configs.linters.eslint')
+			local prettier = require('efmls-configs.formatters.prettier')
+			local languages = {
+  			typescript = { eslint, prettier },
+  			lua = { stylua },
+			}
+			lspconfig.efm.setup {
+				filetypes = vim.tbl_keys(languages),
+				init_options = { documentFormatting = true },
+				settings = {
+					languages = languages,
+				},
+			}
+
+			local lsp_fmt_group = vim.api.nvim_create_augroup('LspFormattingGroup', {})
+			vim.api.nvim_create_autocmd('BufWritePost', {
+			  group = lsp_fmt_group,
+			  callback = function(ev)
+			    local efm = vim.lsp.get_active_clients({ name = 'efm', bufnr = ev.buf })
+			
+			    if vim.tbl_isempty(efm) then
+			      return
+			    end
+			
+			    vim.lsp.buf.format({ name = 'efm' })
+			  end,
+			})
 
 		end,
 		lazy = false,
@@ -154,5 +182,11 @@ require("lazy").setup({
 			}
 		end,
 	},
+	{
+		"lewis6991/gitsigns.nvim",
+	},
+	{
+		"sindrets/diffview.nvim"
+	}
 })
 
