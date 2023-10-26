@@ -63,13 +63,13 @@ require("lazy").setup({
 		dependencies = { 'creativenull/efmls-configs-nvim' },
 		config = function ()
 			local lspconfig = require('lspconfig')
-			local util = "lspconfig/util"
+			local util = require('lspconfig/util')
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 			lspconfig.rust_analyzer.setup {
 				filetypes = {"rust"},
 				capabilities = capabilities,
-				-- root_dir = util.root_pattern("Cargo.toml"),
+				root_dir = util.root_pattern("Cargo.toml"),
 				settings = {
     			['rust-analyzer'] = {
 						cargo = {
@@ -86,9 +86,11 @@ require("lazy").setup({
 			local prettier = require('efmls-configs.formatters.prettier')
 			local languages = {
   			typescript = { eslint, prettier },
+        typescriptreact = { eslint, prettier },
   			lua = { stylua },
 			}
 			lspconfig.efm.setup {
+        root_dir = util.root_pattern('package.json', '.eslintrc', '.git'),
 				filetypes = vim.tbl_keys(languages),
 				init_options = { documentFormatting = true },
 				settings = {
