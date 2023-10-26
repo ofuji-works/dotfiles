@@ -6,17 +6,23 @@ config.font_size = 16.0
 
 config.disable_default_key_bindings = true
 
+local act = wezterm.action
 config.keys = {
 	{
 		key = 'c',
 		mods = 'SUPER',
-		action = wezterm.action.CopyTo 'Clipboard',
+		action = act.CopyTo 'Clipboard',
 	},
 	{
 		key = 'v',
 		mods = 'SUPER',
-		action = wezterm.action.PasteFrom 'Clipboard'
-	}
+		action = act.PasteFrom 'Clipboard',
+	},
+	{
+		key = 'k',
+		mods = 'SUPER',
+		action = act.ClearScrollback 'ScrollbackOnly',
+	},
 } 
 
 return config
