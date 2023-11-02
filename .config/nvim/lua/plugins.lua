@@ -48,7 +48,17 @@ require("lazy").setup({
   {
     'nvim-telescope/telescope.nvim',
 		tag = '0.1.2',
-    dependencies = { 'nvim-lua/plenary.nvim' }, 
+    dependencies = { 
+      'nvim-lua/plenary.nvim',
+      {
+        'princejoogie/dir-telescope.nvim',
+        config = true,
+        opts = {
+          no_ignore = true,
+        }
+      } 
+    }, 
+    build = 'brew install ripgrep fd',
   },
 	{
     "williamboman/mason.nvim",
@@ -189,7 +199,10 @@ require("lazy").setup({
 		"lewis6991/gitsigns.nvim",
 	},
 	{
-		"sindrets/diffview.nvim"
-	}
+		"sindrets/diffview.nvim",
+	},
+  {
+    "vim-jp/vimdoc-ja",
+  }
 })
 
