@@ -70,7 +70,13 @@ require("lazy").setup({
 	},
 	{
 		'neovim/nvim-lspconfig',
-		dependencies = { 'creativenull/efmls-configs-nvim' },
+		dependencies = { 
+      'creativenull/efmls-configs-nvim',
+      {
+        'lvimuser/lsp-inlayhints.nvim',
+        config = true,
+      },
+    },
 		config = function ()
 			local lspconfig = require('lspconfig')
 			local util = require('lspconfig/util')
@@ -89,7 +95,39 @@ require("lazy").setup({
   			},
 			}
 
-			lspconfig.tsserver.setup {}
+			lspconfig.tsserver.setup {
+        
+        on_attach = function(client, bufnr)
+          require("lsp-inlayhints").on_attach(client, bufnr)
+        end,
+
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            }
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            }
+          }
+        }
+      }
 			lspconfig.eslint.setup {}
 
 			local eslint = require('efmls-configs.linters.eslint')

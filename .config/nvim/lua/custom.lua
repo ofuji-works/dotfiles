@@ -296,38 +296,6 @@ rt.setup({
   },
 })
 
-require("typescript").setup({
-  server = {
-    on_attach = function(client, bufnr)
-      vim.lsp.buf.inlay_hint(bufnr, true)
-    end,
-    settings={
-      javascript = {
-        inlayHints = {
-          includeInlayEnumMemberValueHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayVariableTypeHints = true,
-        },
-      },
-      typescript = {
-        inlayHints = {
-          includeInlayEnumMemberValueHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayVariableTypeHints = true,
-        },
-      },
-    },
-  },
-})
-
 require("ibl").setup()
 
 require('gitsigns').setup {
