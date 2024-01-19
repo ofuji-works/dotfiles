@@ -33,6 +33,6 @@ export DOCKER_HOST=unix://$HOME/.lima/docker/sock/docker.sock
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
-# rtx
-eval "$(/opt/homebrew/bin/rtx activate zsh)"
+# mise
+eval "$(/opt/homebrew/bin/mise activate zsh)"
 
