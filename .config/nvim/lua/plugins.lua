@@ -241,6 +241,12 @@ require("lazy").setup({
 	},
   {
     "vim-jp/vimdoc-ja",
-  }
+  },
+  {
+    "lambdalisue/guise.vim",
+    dependencies = {
+      "vim-denops/denops.vim",
+    },
+  },
 })
 
