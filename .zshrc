@@ -36,3 +36,6 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 # mise
 eval "$(/opt/homebrew/bin/mise activate zsh)"
 
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="~/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
