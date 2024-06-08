@@ -95,8 +95,26 @@ require("lazy").setup({
   			},
 			}
 
+      lspconfig.gopls.setup {
+        on_attach = function(client, bufnr)
+          require("lsp-inlayhints").on_attach(client, bufnr)
+        end,
+        settings = {
+          gopls = {
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+          },
+        }
+      }
+
 			lspconfig.tsserver.setup {
-        
         on_attach = function(client, bufnr)
           require("lsp-inlayhints").on_attach(client, bufnr)
         end,
