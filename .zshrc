@@ -25,10 +25,6 @@ alias gs='git status'
 alias allbranchrm='git branch | grep feature | xargs git branch -d'
 alias empty:commit='git commit --allow-empty'
 
-# lima
-export LIMA_INSTANCE=docker
-export DOCKER_HOST=unix://$HOME/.lima/docker/sock/docker.sock
-
 # terraform
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
