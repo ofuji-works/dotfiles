@@ -67,6 +67,25 @@ require("lazy").setup({
 	{
 		'williamboman/mason-lspconfig.nvim',
 		lazy = false,
+    opts = {
+      ensure_installed = {
+        "efm",
+        "eslint",
+        "eslint_d",
+        "golangci-lint",
+        "golangci_lint_ls",
+        "gopls",
+        "lua_ls",
+        "markdownlint",
+        "prettier",
+        "rubocop",
+        "rust_analyzer",
+        "standardjs",
+        "stylelint",
+        "ts-standard",
+        "tsserver",
+      }
+    }
 	},
 	{
 		'neovim/nvim-lspconfig',
@@ -90,7 +109,10 @@ require("lazy").setup({
     			['rust-analyzer'] = {
 						cargo = {
 							allFeatures = true
-						}
+						},
+            check = {
+              command = "clippy"
+            }
 					},
   			},
 			}
@@ -99,8 +121,16 @@ require("lazy").setup({
         on_attach = function(client, bufnr)
           require("lsp-inlayhints").on_attach(client, bufnr)
         end,
+        cmd = {"gopls"},
+        filetypes = {"go", "gomod", "gowork", "gotmpl"},
+        root_dir = util.root_pattern("go.work", "go.mod", ".git"),
         settings = {
           gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+              unusedparams = true,
+            },
             hints = {
               assignVariableTypes = true,
               compositeLiteralFields = true,
