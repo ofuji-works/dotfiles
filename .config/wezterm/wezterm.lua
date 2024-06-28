@@ -1,6 +1,11 @@
 local wezterm = require 'wezterm'
 local config = {}
 
+local is_windows = wezterm.target_triple:find("windows")
+if is_windows then
+	config.default_domain = "WSL:Ubuntu"	
+end
+
 config.color_scheme = 'BlueBerryPie'
 config.font_size = 16.0
 
