@@ -67,25 +67,6 @@ require("lazy").setup({
 	{
 		'williamboman/mason-lspconfig.nvim',
 		lazy = false,
-    opts = {
-      ensure_installed = {
-        "efm",
-        "eslint",
-        "eslint_d",
-        "golangci-lint",
-        "golangci_lint_ls",
-        "gopls",
-        "lua_ls",
-        "markdownlint",
-        "prettier",
-        "rubocop",
-        "rust_analyzer",
-        "standardjs",
-        "stylelint",
-        "ts-standard",
-        "tsserver",
-      }
-    }
 	},
 	{
 		'neovim/nvim-lspconfig',
@@ -95,120 +76,8 @@ require("lazy").setup({
         'lvimuser/lsp-inlayhints.nvim',
         config = true,
       },
-    },
-		config = function ()
-			local lspconfig = require('lspconfig')
-			local util = require('lspconfig/util')
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-			lspconfig.rust_analyzer.setup {
-				filetypes = {"rust"},
-				capabilities = capabilities,
-				root_dir = util.root_pattern("Cargo.toml"),
-				settings = {
-    			['rust-analyzer'] = {
-						cargo = {
-							allFeatures = true
-						},
-            check = {
-              command = "clippy"
-            }
-					},
-  			},
-			}
-
-      lspconfig.gopls.setup {
-        on_attach = function(client, bufnr)
-          require("lsp-inlayhints").on_attach(client, bufnr)
-        end,
-        cmd = {"gopls"},
-        filetypes = {"go", "gomod", "gowork", "gotmpl"},
-        root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-        settings = {
-          gopls = {
-            completeUnimported = true,
-            usePlaceholders = true,
-            analyses = {
-              unusedparams = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-          },
-        }
-      }
-
-			lspconfig.tsserver.setup {
-        on_attach = function(client, bufnr)
-          require("lsp-inlayhints").on_attach(client, bufnr)
-        end,
-
-        settings = {
-          typescript = {
-            inlayHints = {
-              includeInlayParameterNameHints = 'all',
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            }
-          },
-          javascript = {
-            inlayHints = {
-              includeInlayParameterNameHints = 'all',
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            }
-          }
-        }
-      }
-			lspconfig.eslint.setup {}
-
-			local eslint = require('efmls-configs.linters.eslint')
-			local prettier = require('efmls-configs.formatters.prettier')
-			local languages = {
-  			typescript = { eslint, prettier },
-        typescriptreact = { eslint, prettier },
-  			lua = { stylua },
-			}
-			lspconfig.efm.setup {
-        root_dir = util.root_pattern('package.json', '.eslintrc', '.git'),
-				filetypes = vim.tbl_keys(languages),
-				init_options = { documentFormatting = true },
-				settings = {
-					languages = languages,
-				},
-			}
-
-			local lsp_fmt_group = vim.api.nvim_create_augroup('LspFormattingGroup', {})
-			vim.api.nvim_create_autocmd('BufWritePost', {
-			  group = lsp_fmt_group,
-			  callback = function(ev)
-			    local efm = vim.lsp.get_active_clients({ name = 'efm', bufnr = ev.buf })
-			
-			    if vim.tbl_isempty(efm) then
-			      return
-			    end
-			
-			    vim.lsp.buf.format({ name = 'efm' })
-			  end,
-			})
-
-		end,
+      'lukas-reineke/lsp-format.nvim',
+    }, 
 		lazy = false,
 	},
 	{
@@ -298,3 +167,12 @@ require("lazy").setup({
   },
 })
 
+
+require("ibl").setup()
+
+require("plugins/nvim-lspconfig");
+require("plugins/mason");
+require("plugins/noice");
+require("plugins/rust-tools");
+require("plugins/cmp");
+require("plugins/gitsigns");
