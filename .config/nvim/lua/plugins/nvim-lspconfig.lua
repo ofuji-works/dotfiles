@@ -12,6 +12,7 @@ local same_settings_servers = {
   "cssls",
   "svelte",
   "eslint",
+  "vuels",
 }
 
 for _, lsp in ipairs(same_settings_servers) do
