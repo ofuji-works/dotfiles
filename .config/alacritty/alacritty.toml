@@ -12,5 +12,5 @@ normal = { family = "Hack Nerd Font", style = "Regular"}
 
 [keyboard]
 bindings = [
-  { key = "T", mods = "Command", mode = "AppCursor", action = "CreateNewTab" }
+  { key = "T", mods = "Command", action = "CreateNewTab" }
 ]
