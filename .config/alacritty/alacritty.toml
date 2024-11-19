@@ -1,0 +1,16 @@
+[general]
+import = ["./theme.toml"]
+
+[window]
+padding = { x = 10, y = 10 }
+opacity = 0.9
+blur = true
+
+[font]
+size = 16
+normal = { family = "Hack Nerd Font", style = "Regular"}
+
+[keyboard]
+bindings = [
+  { key = "T", mods = "Command", mode = "AppCursor", action = "CreateNewTab" }
+]

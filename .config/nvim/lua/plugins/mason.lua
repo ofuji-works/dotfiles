@@ -18,6 +18,7 @@ require("mason-lspconfig").setup {
     "rubocop",
     "rust_analyzer",
     "tsserver",
+    "taplo",
   },
 }
 

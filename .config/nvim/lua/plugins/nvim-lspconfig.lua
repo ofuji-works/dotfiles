@@ -13,6 +13,7 @@ local same_settings_servers = {
   "svelte",
   "eslint",
   "vuels",
+  "taplo",
 }
 
 for _, lsp in ipairs(same_settings_servers) do
