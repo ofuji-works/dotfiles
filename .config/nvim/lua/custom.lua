@@ -31,9 +31,7 @@ vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {})
 
 
 local function on_cursor_hold()
-  if vim.lsp.buf.server_ready() then
-    vim.diagnostic.open_float()
-  end
+  vim.diagnostic.open_float()
 end
 
 local diagnostic_hover_augroup_name = "lspconfig-diagnostic"

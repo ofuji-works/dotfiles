@@ -24,7 +24,7 @@ for _, lsp in ipairs(same_settings_servers) do
 end
 
 -- Lua
-lspconfig.lua_lsp.setup({
+lspconfig.lua_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
