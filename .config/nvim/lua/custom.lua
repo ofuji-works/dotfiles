@@ -42,3 +42,6 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, { group = diagnostic_hover_augroup
 -- cmp
 vim.opt.completeopt = "menu,menuone,noselect"
 
+-- claude
+vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })
+

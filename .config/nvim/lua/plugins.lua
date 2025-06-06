@@ -158,6 +158,12 @@ require("lazy").setup({
       "vim-denops/denops.vim",
     },
   },
+  {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  }
 })
 
 
@@ -169,3 +175,4 @@ require("plugins/noice");
 require("plugins/rust-tools");
 require("plugins/cmp");
 require("plugins/gitsigns");
+require("plugins/claude-code");
