@@ -141,16 +141,7 @@ require("lazy").setup({
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
-		opts = {} 
-	},
-	{
-  	"github/copilot.vim",
-		config = function()
-			vim.g.copilot_filetypes = {
-				markdown = true,
-				yaml = true,
-			}
-		end,
+		opts = {}
 	},
 	{
 		"lewis6991/gitsigns.nvim",
