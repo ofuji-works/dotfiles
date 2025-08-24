@@ -7,6 +7,10 @@ vim.api.nvim_set_keymap("t", "<C-w>j", '<C-\\><C-n><C-w>j', { noremap = true, de
 vim.api.nvim_set_keymap("t", "<C-w>k", '<C-\\><C-n><C-w>k', { noremap = true, desc = '[Ctrl+w+k]でバッファ移動' })
 vim.api.nvim_set_keymap("t", "<C-w>l", '<C-\\><C-n><C-w>l', { noremap = true, desc = '[Ctrl+w+l]でバッファ移動' })
 
+-- Tab移動設定
+vim.keymap.set("n", "<Tab>", "gt", { noremap = true, silent = true })
+vim.keymap.set("n", "<S-Tab>", "gT", { noremap = true, silent = true })
+
 -- telescope
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
