@@ -1,21 +1,25 @@
+-- Window移動設定
+vim.keymap.set('n', '<CR><CR>', '<C-w><C-w>', { noremap = true, silent = true, desc = 'Enter連打でWindowを移動' })
+--- ターミナルで<c-w>でバッファ操作
+vim.api.nvim_set_keymap("t", "<C-w><C-w>", '<C-\\><C-n>', { noremap = true, desc = '[Ctrl+w]連打でノーマルモード' })
+vim.api.nvim_set_keymap("t", "<C-w>h", '<C-\\><C-n><C-w>h', { noremap = true, desc = '[Ctrl+w+h]でバッファ移動' })
+vim.api.nvim_set_keymap("t", "<C-w>j", '<C-\\><C-n><C-w>j', { noremap = true, desc = '[Ctrl+w+j]でバッファ移動' })
+vim.api.nvim_set_keymap("t", "<C-w>k", '<C-\\><C-n><C-w>k', { noremap = true, desc = '[Ctrl+w+k]でバッファ移動' })
+vim.api.nvim_set_keymap("t", "<C-w>l", '<C-\\><C-n><C-w>l', { noremap = true, desc = '[Ctrl+w+l]でバッファ移動' })
+
+-- telescope
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
 vim.keymap.set("n", "<leader>fd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>pd", "<cmd>Telescope dir find_files<CR>", { noremap = true, silent = true })
 
+-- Filer
 vim.keymap.set('n', '<C-n>', ':Fern ./ -reveal=% -drawer<CR>')
 
---ターミナルで<c-w>でバッファ操作
-vim.api.nvim_set_keymap("t", "<C-w><C-w>", '<C-\\><C-n>', { noremap = true, desc = '<C-w>連打でノーマルモード' })
-vim.api.nvim_set_keymap("t", "<C-w>h", '<C-\\><C-n><C-w>h', { noremap = true, desc = '<C-w>hでバッファ移動' })
-vim.api.nvim_set_keymap("t", "<C-w>j", '<C-\\><C-n><C-w>j', { noremap = true, desc = '<C-w>jでバッファ移動' })
-vim.api.nvim_set_keymap("t", "<C-w>k", '<C-\\><C-n><C-w>k', { noremap = true, desc = '<C-w>kでバッファ移動' })
-vim.api.nvim_set_keymap("t", "<C-w>l", '<C-\\><C-n><C-w>l', { noremap = true, desc = '<C-w>lでバッファ移動' })
-
+-- LSP
 vim.keymap.set('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<CR>', {})
 vim.keymap.set('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', {})
 vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', {})

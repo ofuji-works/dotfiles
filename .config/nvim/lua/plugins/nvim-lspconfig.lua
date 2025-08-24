@@ -1,10 +1,35 @@
 local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local inlay_hints = require('lsp-inlayhints')
 
-on_attach = function(client, bufnr)
-  inlay_hints.on_attach(client, bufnr)
+local function enable_inlay_hints(bufnr)
+  local ih = vim.lsp.inlay_hint
+  if type(ih) == "function" then
+    ih(bufnr, true) -- Neovim 0.9 系
+  elseif type(ih) == "table" and type(ih.enable) == "function" then
+    ih.enable(true, { bufnr = bufnr }) -- Neovim 0.10+
+  end
+end
+
+local function toggle_inlay_hints(bufnr)
+  local ih = vim.lsp.inlay_hint
+  if type(ih) == "function" then
+    -- 0.9 系は自前で状態を持つ
+    local enabled = vim.b.__ih_enabled or false
+    ih(bufnr, not enabled)
+    vim.b.__ih_enabled = not enabled
+  elseif type(ih) == "table" and ih.is_enabled and ih.enable then
+    local enabled = ih.is_enabled({ bufnr = bufnr })
+    ih.enable(not enabled, { bufnr = bufnr })
+  end
+end
+
+local on_attach = function(client, bufnr)
+  if client.server_capabilities.inlayHintProvider then
+    enable_inlay_hints(bufnr)
+    vim.keymap.set("n", "<leader>ih", function() toggle_inlay_hints(bufnr) end,
+      { buffer = bufnr, desc = "Toggle Inlay Hints" })
+  end
 end
 
 local same_settings_servers = {
@@ -14,6 +39,7 @@ local same_settings_servers = {
   "eslint",
   "vuels",
   "taplo",
+  "lua_ls",
 }
 
 for _, lsp in ipairs(same_settings_servers) do
@@ -22,12 +48,6 @@ for _, lsp in ipairs(same_settings_servers) do
     capabilities = capabilities,
   })
 end
-
--- Lua
-lspconfig.lua_ls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
 
 -- Rust
 lspconfig.rust_analyzer.setup({
@@ -47,7 +67,7 @@ lspconfig.rust_analyzer.setup({
 })
 
 -- Go
-go_hints_options = {
+local go_hints_options = {
   assignVariableTypes = true,
   compositeLiteralFields = true,
   compositeLiteralTypes = true,
@@ -75,10 +95,7 @@ lspconfig.gopls.setup({
 })
 
 -- TypeScript
----- eslint
----- prettier
---
-inlay_hints_options = {
+local inlay_hints_options = {
   includeInlayParameterNameHints = 'all',
   includeInlayParameterNameHintsWhenArgumentMatchesName = false,
   includeInlayFunctionParameterTypeHints = true,
@@ -88,7 +105,7 @@ inlay_hints_options = {
   includeInlayFunctionLikeReturnTypeHints = true,
   includeInlayEnumMemberValueHints = true,
 }
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
@@ -101,9 +118,14 @@ lspconfig.tsserver.setup({
   }
 })
 
+
+--- Lint / Format
+
+---- linters 
 local eslint_linter = require('efmls-configs.linters.eslint_d')
 local rubocop = require('efmls-configs.linters.rubocop')
 
+---- formatter
 local eslint_formatter = require('efmls-configs.formatters.eslint_d')
 local prettier = require('efmls-configs.formatters.prettier')
 local rome = require('efmls-configs.formatters.rome')
@@ -111,7 +133,7 @@ local stylua = require('efmls-configs.formatters.stylua')
 local goimports = require('efmls-configs.formatters.goimports')
 local stylelint = require('efmls-configs.formatters.stylelint')
 
-ts_opt = {
+local ts_opt = {
   eslint_linter,
   eslint_formatter,
   prettier,

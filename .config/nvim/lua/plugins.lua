@@ -13,6 +13,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  -- neovim
+  {
+    "folke/neodev.nvim",
+    config = function ()
+      require("neodev").setup({})
+    end
+  },
 	-- rust
 	{
 		'rust-lang/rust.vim',
@@ -72,10 +79,6 @@ require("lazy").setup({
 		'neovim/nvim-lspconfig',
 		dependencies = { 
       'creativenull/efmls-configs-nvim',
-      {
-        'lvimuser/lsp-inlayhints.nvim',
-        config = true,
-      },
       'lukas-reineke/lsp-format.nvim',
     }, 
 		lazy = false,
