@@ -28,6 +28,10 @@ require("lazy").setup({
 		end
 	},
 	{
+		'simrat39/rust-tools.nvim',
+	},
+  -- fern
+	{
 		'lambdalisue/fern.vim',
 		lazy = false,
 		dependencies = {
@@ -38,24 +42,27 @@ require("lazy").setup({
 			{ 'lambdalisue/fern-git-status.vim' },
 		 },
 		 config = function()
-			vim.g["fern#renderer"] = "nerdfont"
-			vim.g["fern#default_hidden"] = 1
-			vim.api.nvim_exec(
-				[[
-					augroup my-glyph-palette
-  					autocmd! *
-  					autocmd FileType fern call glyph_palette#apply()
-  					autocmd FileType nerdtree,startify call glyph_palette#apply()
-					augroup END
-				]],
-				false
-			)
-    end
+       vim.g["fern#renderer"] = "nerdfont"
+       vim.g["fern#default_hidden"] = 1
+       -- Vimscript関数 glyph_palette#apply() を Lua から呼ぶ
+       local function apply_glyph_palette()
+         vim.fn["glyph_palette#apply"]()
+       end
+
+       -- autocmd を Lua API で定義
+       local grp = vim.api.nvim_create_augroup("my-glyph-palette", { clear = true })
+       vim.api.nvim_create_autocmd("FileType", {
+         group = grp,
+         pattern = { "fern", "nerdtree", "startify" },
+         callback = apply_glyph_palette,
+         desc = "Apply glyph-palette on fern/nerdtree/startify",
+       })
+     end
 	},
   {
     'nvim-telescope/telescope.nvim',
 		tag = '0.1.2',
-    dependencies = { 
+    dependencies = {
       'nvim-lua/plenary.nvim',
       {
         'princejoogie/dir-telescope.nvim',
@@ -63,8 +70,8 @@ require("lazy").setup({
         opts = {
           no_ignore = true,
         }
-      } 
-    }, 
+      }
+    },
     build = 'brew install ripgrep fd',
   },
 	{
@@ -77,10 +84,10 @@ require("lazy").setup({
 	},
 	{
 		'neovim/nvim-lspconfig',
-		dependencies = { 
+		dependencies = {
       'creativenull/efmls-configs-nvim',
       'lukas-reineke/lsp-format.nvim',
-    }, 
+    },
 		lazy = false,
 	},
 	{
@@ -92,17 +99,6 @@ require("lazy").setup({
 	{
   	"folke/noice.nvim",
   	event = "VeryLazy",
-  	opts = {
-    	-- add any options here
-  	},
-  	dependencies = {
-    	-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    	"MunifTanjim/nui.nvim",
-    	-- OPTIONAL:
-    	--   `nvim-notify` is only needed, if you want to use the notification view.
-    	--   If not available, we use `mini` as the fallback
-    	"rcarriga/nvim-notify",
-    }
 	},
 	{
  		"hrsh7th/nvim-cmp",
@@ -115,9 +111,6 @@ require("lazy").setup({
 			{ 'L3MON4D3/LuaSnip' },
 			{ "saadparwaiz1/cmp_luasnip" },
 		},
-	},
-	{
-		'simrat39/rust-tools.nvim',
 	},
 	{
 		'jose-elias-alvarez/typescript.nvim',
