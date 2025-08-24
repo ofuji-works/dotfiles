@@ -3,4 +3,5 @@ rust = ["1.87.0", "1.88.0"]
 node = '22.12.0'
 deno = 'latest'
 neovim = "latest"
+gh = "latest"
 
