@@ -11,6 +11,12 @@ vim.api.nvim_set_keymap("t", "<C-w>l", '<C-\\><C-n><C-w>l', { noremap = true, de
 vim.keymap.set("n", "<Tab>", "gt", { noremap = true, silent = true })
 vim.keymap.set("n", "<S-Tab>", "gT", { noremap = true, silent = true })
 
+-- Color設定
+vim.cmd [[
+  highlight Normal guibg=none
+  highlight NonText guibg=none
+]]
+
 -- telescope
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
