@@ -20,48 +20,48 @@ require("lazy").setup({
       require("neodev").setup({})
     end
   },
-	-- rust
-	{
-		'rust-lang/rust.vim',
-		config = function ()
-			vim.g.rustfmt_autosave = 1
-		end
-	},
-	{
-		'simrat39/rust-tools.nvim',
-	},
+  -- rust
+  {
+    'rust-lang/rust.vim',
+    config = function ()
+      vim.g.rustfmt_autosave = 1
+    end
+  },
+  {
+    'simrat39/rust-tools.nvim',
+  },
   -- fern
-	{
-		'lambdalisue/fern.vim',
-		lazy = false,
-		dependencies = {
-			{ 'lambdalisue/nerdfont.vim' },
-			{ 'lambdalisue/fern-renderer-nerdfont.vim' },
-			{ 'lambdalisue/fern-hijack.vim' },
-			{ 'lambdalisue/glyph-palette.vim' },
-			{ 'lambdalisue/fern-git-status.vim' },
-		 },
-		 config = function()
-       vim.g["fern#renderer"] = "nerdfont"
-       vim.g["fern#default_hidden"] = 1
-       -- Vimscript関数 glyph_palette#apply() を Lua から呼ぶ
-       local function apply_glyph_palette()
-         vim.fn["glyph_palette#apply"]()
-       end
+  {
+    'lambdalisue/fern.vim',
+    lazy = false,
+    dependencies = {
+      { 'lambdalisue/nerdfont.vim' },
+      { 'lambdalisue/fern-renderer-nerdfont.vim' },
+      { 'lambdalisue/fern-hijack.vim' },
+      { 'lambdalisue/glyph-palette.vim' },
+      { 'lambdalisue/fern-git-status.vim' },
+    },
+    config = function()
+      vim.g["fern#renderer"] = "nerdfont"
+      vim.g["fern#default_hidden"] = 1
+      -- Vimscript関数 glyph_palette#apply() を Lua から呼ぶ
+      local function apply_glyph_palette()
+        vim.fn["glyph_palette#apply"]()
+      end
 
-       -- autocmd を Lua API で定義
-       local grp = vim.api.nvim_create_augroup("my-glyph-palette", { clear = true })
-       vim.api.nvim_create_autocmd("FileType", {
-         group = grp,
-         pattern = { "fern", "nerdtree", "startify" },
-         callback = apply_glyph_palette,
-         desc = "Apply glyph-palette on fern/nerdtree/startify",
-       })
-     end
-	},
+      -- autocmd を Lua API で定義
+      local grp = vim.api.nvim_create_augroup("my-glyph-palette", { clear = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = grp,
+        pattern = { "fern", "nerdtree", "startify" },
+        callback = apply_glyph_palette,
+        desc = "Apply glyph-palette on fern/nerdtree/startify",
+      })
+    end
+  },
   {
     'nvim-telescope/telescope.nvim',
-		tag = '0.1.2',
+    tag = '0.1.2',
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
@@ -74,77 +74,67 @@ require("lazy").setup({
     },
     build = 'brew install ripgrep fd',
   },
-	{
+  {
     "williamboman/mason.nvim",
-		lazy = false,
-	},
-	{
-		'williamboman/mason-lspconfig.nvim',
-		lazy = false,
-	},
-	{
-		'neovim/nvim-lspconfig',
-		dependencies = {
+    lazy = false,
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    lazy = false,
+  },
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
       'creativenull/efmls-configs-nvim',
       'lukas-reineke/lsp-format.nvim',
     },
-		lazy = false,
-	},
-	{
-		'simeji/winresizer',
-		keys = {
-			'<c-e>',
-		},
-	},
-	{
-  	"folke/noice.nvim",
-  	event = "VeryLazy",
-	},
-	{
- 		"hrsh7th/nvim-cmp",
-		lazy = false,
-		dependencies = {
-			{ 'hrsh7th/cmp-nvim-lsp' },
-			{ "hrsh7th/cmp-buffer" },
+    lazy = false,
+  },
+  {
+    'simeji/winresizer',
+    keys = {
+      '<c-e>',
+    },
+  },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    lazy = false,
+    dependencies = {
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { "hrsh7th/cmp-buffer" },
       { 'hrsh7th/cmp-vsnip' },
       { 'hrsh7th/vim-vsnip' },
-			{ 'L3MON4D3/LuaSnip' },
-			{ "saadparwaiz1/cmp_luasnip" },
-		},
-	},
-	{
-		'jose-elias-alvarez/typescript.nvim',
-	},
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000,
-		lazy = false,
-		config = function()
-			vim.cmd([[colorscheme catppuccin]])
-		end
-	},
-	{
-		"iamcco/markdown-preview.nvim",
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-		init = function()
-			vim.g.mkdp_filetypes = { "markdown" }
-		end,
-		ft = { "markdown" },
-	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		opts = {}
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-	},
-	{
-		"sindrets/diffview.nvim",
-	},
+      { 'L3MON4D3/LuaSnip' },
+      { "saadparwaiz1/cmp_luasnip" },
+    },
+  },
+  {
+    'jose-elias-alvarez/typescript.nvim',
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+  },
+  {
+    "sindrets/diffview.nvim",
+  },
   {
     "vim-jp/vimdoc-ja",
   },
