@@ -20,6 +20,14 @@ require("lazy").setup({
       require("neodev").setup({})
     end
   },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("tokyonight-night")
+    end,
+  },
   -- rust
   {
     'rust-lang/rust.vim',
