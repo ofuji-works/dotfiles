@@ -1,9 +1,3 @@
--- Color設定
-vim.cmd [[
-  highlight Normal guibg=none
-  highlight NonText guibg=none
-]]
-
 -- TrueColor を有効化
 vim.o.termguicolors = true
 -- Normal 背景を透明に
