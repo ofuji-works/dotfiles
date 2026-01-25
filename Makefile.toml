@@ -1,0 +1,24 @@
+[tasks.setup]
+dependencies = [
+  "brew-tap",
+  "install-packages",
+  "git-settings"
+]
+
+[tasks.brew-tap]
+command = "brew"
+args = ["tap", "hashicorp/tap", "homebrew/cask-fonts"]
+
+[tasks.install-packages]
+command = "brew"
+args = [
+  "install",
+  "font-hack-nerd-font",
+  "mise",
+  "docker",
+  "docker-compose",
+  "hashicorp/tap/terraform"
+]
+
+[tasks.git-settings]
+command = "./git-settings.sh"
