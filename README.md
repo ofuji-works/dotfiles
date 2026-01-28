@@ -125,6 +125,20 @@ zig build -Doptimize=ReleaseFast -fno-sys=gtk4-layer-shell
 
 The Alacritty config assumes Hack Nerd Font. Install via Homebrew Cask on macOS or from packages/upstream on Linux.
 
+Download Page https://www.nerdfonts.com/font-downloads
+
+## Ubuntu Mozc settings
+
+### input mode default hiragana 
+
+```bash
+vi .config/mozc/ibus_config.textproto
+```
+```shell
+active_on_launch: True
+
+```
+
 ## Common Commands
 
 - `make setup`: one-shot environment bootstrap

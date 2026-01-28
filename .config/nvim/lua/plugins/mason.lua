@@ -13,8 +13,8 @@ require("mason-lspconfig").setup({
   ensure_installed = {
     "efm",
     "eslint",
-    "golangci_lint_ls",
-    "gopls",
+--    "golangci_lint_ls",
+--    "gopls",
     "lua_ls",
     "rust_analyzer",
     "ts_ls",
