@@ -1,0 +1,8 @@
+background = 000933
+foreground = ffffff
+background-opacity = 0.9
+background-image = ./bg-image.png
+background-image-fit = cover
+font-size = 16
+
+quick-terminal-animation-duration = 0.3
