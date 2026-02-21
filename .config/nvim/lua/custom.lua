@@ -53,3 +53,58 @@ vim.opt.completeopt = "menu,menuone,noselect"
 -- claude
 vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })
 
+-- Statusline settings
+-- Use global statusline (Neovim 0.7+)
+vim.o.laststatus = 3
+-- Simple, informative statusline implemented in Lua
+local function mode_label()
+  local m = vim.fn.mode()
+  local map = {
+    n = "N", no = "N", nov = "N", nt = "N",
+    v = "V", V = "VL", ['\22'] = "VB",
+    s = "S", S = "SL", ['\19'] = "SB",
+    i = "I", ic = "I", ix = "I",
+    R = "R", Rc = "R", Rv = "R",
+    c = "C", cv = "EX", ce = "EX",
+    r = "…", rm = "M", ['r?'] = "?",
+    ['!'] = "!", t = "T",
+  }
+  return map[m] or m
+end
+
+local function recording_label()
+  local reg = vim.fn.reg_recording()
+  if reg ~= '' then
+    return ' REC@' .. reg
+  end
+  return ''
+end
+
+local function file_path()
+  local p = vim.fn.expand('%:~:.')
+  return (p ~= '' and p) or '[No Name]'
+end
+
+local function flags()
+  local f = {}
+  if vim.bo.modified then table.insert(f, '+') end
+  if vim.bo.readonly or not vim.bo.modifiable then table.insert(f, 'RO') end
+  return #f > 0 and (' [' .. table.concat(f, ',') .. ']') or ''
+end
+
+local function right_info()
+  local ft = vim.bo.filetype ~= '' and (vim.bo.filetype .. ' ') or ''
+  local pos = string.format('%d:%d', vim.fn.line('.'), vim.fn.col('.'))
+  local percent = string.format('%3d%%%%', math.floor((vim.fn.line('.') * 100) / math.max(1, vim.fn.line('$'))))
+  return ft .. pos .. ' ' .. percent
+end
+
+_G.Statusline = function()
+  return table.concat({
+    ' ', mode_label(), recording_label(), ' ', file_path(), flags(), ' ',
+    '%=', -- right align
+    right_info(), ' '
+  })
+end
+
+vim.o.statusline = "%!v:lua.Statusline()"

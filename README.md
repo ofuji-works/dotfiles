@@ -79,6 +79,12 @@ sudo apt update
 sudo apt install trash-cli
 ```
 
+8) Install Other Tools
+
+```bash
+brew install anomalyco/tap/opencode
+```
+
 ## Fonts (Hack Nerd Font)
 
 The Alacritty config assumes Hack Nerd Font. Install via Homebrew Cask on macOS or from packages/upstream on Linux.
