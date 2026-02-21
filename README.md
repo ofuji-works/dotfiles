@@ -19,7 +19,7 @@ Example: install base packages on Ubuntu
 
 ```bash
 sudo apt-get update && \
-  sudo apt-get install -y build-essential procps curl file git
+  sudo apt-get install -y build-essential procps curl file git pkg-config libssl-dev
 ```
 
 ## Setup
@@ -64,61 +64,19 @@ cargo install cargo-make
 makers setup
 ```
 
-7) Launch Neovim to sync plugins
+7) Setup Neovim
+
+Launch Neovim to sync plugins
+On first launch, lazy.nvim will bootstrap itself and install plugins.
 
 ```bash
 nvim
 ```
-
-On first launch, lazy.nvim will bootstrap itself and install plugins.
-
-## Setup Terminal Emulator
-
-**Ghostty**
-
-1) Download Source
-https://github.com/ghostty-org/ghostty/tags
-
-2) Install Dependency Packages
+For ubuntu, be able to delete file on fern.
 
 ```bash
 sudo apt update
-
-sudo apt install -y \
-    libgtk-4-dev \
-    libadwaita-1-dev \
-    gettext \
-    libxml2-utils
-```
-
-The `apt` blueprint-compiler is version 12, but version 16 or higher is required.
-
-```bash
-brew install blueprint-compiler
-```
-
-2) Build Ghostty  
-
-Because the iTerm2 theme resource paths cannot be resolved automatically, you need to adjust them manually.
-
-```bash
-tar -xf ghostty-VERSION.tar.gz
-cd ghostty-VERSION/
-
-zig fetch --save=iterm2_themes "https://github.com/mbadolato/iTerm2-Color-Schemes/releases/download/release-20260112-150707-28c8f5b/ghost
-ty-themes.tgz"
-
-zig build -Doptimize=ReleaseFast
-```
-
-Reference: https://ghostty.org/docs/install/build
-
-
-For Ubuntu
-
-```bash
-zig build -Doptimize=ReleaseFast -fno-sys=gtk4-layer-shell
-
+sudo apt install trash-cli
 ```
 
 ## Fonts (Hack Nerd Font)
