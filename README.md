@@ -85,6 +85,26 @@ sudo apt install trash-cli
 brew install anomalyco/tap/opencode
 ```
 
+## Install Haskell
+
+1. install ghcup
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+```
+
+2. install haskell environment
+
+```bash
+ghcup tui
+```
+
+3. set default ghc
+
+```bash
+ghcup set ghc xx.x.x
+```
+
 ## Fonts (Hack Nerd Font)
 
 The Alacritty config assumes Hack Nerd Font. Install via Homebrew Cask on macOS or from packages/upstream on Linux.

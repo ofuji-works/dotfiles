@@ -6,5 +6,4 @@ neovim = "latest"
 gh = "latest"
 zig = "0.14.1"
 go = "latest"
-haskell = "latest"
 
