@@ -21,4 +21,7 @@ args = [
 ]
 
 [tasks.git-settings]
-command = "./git-settings.sh"
+command = "./scripts/setting-git.sh"
+
+[tasks.update-chrome]
+command = "./scripts/update-chrome.sh"
