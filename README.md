@@ -105,6 +105,62 @@ ghcup tui
 ghcup set ghc xx.x.x
 ```
 
+## Install Docker
+
+https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository のページを参照してください。
+
+## Run Docker without sudo (Rootless mode)
+
+`sudo` を付けずに Docker を実行する方法。詳細は https://docs.docker.com/engine/security/rootless/ を参照。
+
+1. 前提パッケージのインストール
+
+```bash
+sudo apt-get install -y uidmap dbus-user-session
+```
+
+2. システム全体の Docker デーモンが動いている場合は停止
+
+```bash
+sudo systemctl disable --now docker.service docker.socket
+sudo rm /var/run/docker.sock
+```
+
+3. rootless 用セットアップツールを実行
+
+```bash
+dockerd-rootless-setuptool.sh install
+```
+
+ツールが見つからない場合は `docker-ce-rootless-extras` をインストールする。
+
+```bash
+sudo apt-get install -y docker-ce-rootless-extras
+```
+
+4. 環境変数を設定（`~/.zshrc` などに追記）
+
+```bash
+export PATH=/usr/bin:$PATH
+export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock
+```
+
+5. デーモンの起動と自動起動の設定
+
+```bash
+systemctl --user start docker
+systemctl --user enable docker
+sudo loginctl enable-linger $(whoami)
+```
+
+6. 動作確認
+
+```bash
+docker info
+```
+
+`Security Options` に `rootless` が表示されていれば成功。
+
 ## Fonts (Hack Nerd Font)
 
 The Alacritty config assumes Hack Nerd Font. Install via Homebrew Cask on macOS or from packages/upstream on Linux.

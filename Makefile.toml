@@ -25,3 +25,34 @@ command = "./scripts/setting-git.sh"
 
 [tasks.update-chrome]
 command = "./scripts/update-chrome.sh"
+
+[tasks.set-config]
+dependencies = [
+  "set-config-neovim",
+  "set-config-ghostty",
+  "set-config-mise"
+]
+
+[tasks.set-config-neovim]
+command = "ln"
+args = [
+  "-s",
+  "~/dotfiles/.config/nvim",
+  "~/.config/nvim"
+]
+
+[tasks.set-config-ghostty]
+command = "ln"
+args = [
+  "-s",
+  "~/dotfiles/.config/ghostty",
+  "~/.config/ghostty"
+]
+
+[tasks.set-config-mise]
+command = "ln"
+args = [
+  "-s",
+  "~/dotfiles/.config/mise",
+  "~/.config/mise"
+]
