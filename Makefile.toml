@@ -30,7 +30,8 @@ command = "./scripts/update-chrome.sh"
 dependencies = [
   "set-config-neovim",
   "set-config-ghostty",
-  "set-config-mise"
+  "set-config-mise",
+  "set-config-claude"
 ]
 
 [tasks.set-config-neovim]

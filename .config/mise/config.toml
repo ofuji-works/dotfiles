@@ -1,9 +1,10 @@
 [tools]
 rust = "1.93.0"
-node = '22.12.0'
+node = "26.3.0"
 deno = 'latest'
 neovim = "latest"
 gh = "latest"
 zig = "0.14.1"
 go = "latest"
+python = "latest"
 

@@ -9,7 +9,7 @@ require("mason").setup({
 })
 
 require("mason-lspconfig").setup({
-  automatic_enable = false,
+  automatic_enable = true,
   ensure_installed = {
     "efm",
     "eslint",
