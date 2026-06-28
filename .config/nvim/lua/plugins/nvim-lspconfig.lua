@@ -66,6 +66,17 @@ lspconfig.rust_analyzer.setup({
   },
 })
 
+-- Haskell
+lspconfig.hls.setup({
+  on_attach = require('lsp-format').on_attach,
+  capabilities = capabilities,
+  settings = {
+    haskell = {
+      formattingProvider = "fourmolu"
+    }
+  }
+})
+
 -- Go
 local go_hints_options = {
   assignVariableTypes = true,

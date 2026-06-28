@@ -31,7 +31,7 @@ dependencies = [
   "set-config-neovim",
   "set-config-ghostty",
   "set-config-mise",
-  "set-config-claude"
+  "set-haskell"
 ]
 
 [tasks.set-config-neovim]
@@ -57,3 +57,6 @@ args = [
   "~/dotfiles/.config/mise",
   "~/.config/mise"
 ]
+
+[tasks.set-haskell]
+command = "./scripts/setting-haskell.sh"

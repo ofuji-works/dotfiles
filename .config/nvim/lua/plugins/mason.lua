@@ -16,6 +16,7 @@ require("mason-lspconfig").setup({
 --    "golangci_lint_ls",
 --    "gopls",
     "lua_ls",
+    "hls",
     "rust_analyzer",
     "ts_ls",
     "taplo",
