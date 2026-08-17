@@ -179,6 +179,33 @@ active_on_launch: True
 
 ```
 
+## terminal-browser settings
+
+1. install 
+
+```bash
+curl -fsSl https://terminal-browser.sh/install | bash
+```
+
+2. エラーが出るため、~/.local/share/terminal-browser/scripts/apparmor.shを書き換える
+
+Ubuntu 24の場合App Armorが4.0になっており、terminal-browserでは5.0が要求される。
+apparmor.sh内でabi5.0でハードコーディングされているため、4.0に書き換える。
+
+3. apparmor.shを実行する
+
+```bash
+sudo ~/.local/share/terminal-browser/app/scripts/apparmor.sh
+```
+sudoをつけて実行をする必要がある。
+
+4. .bashrcにupgrade時にapparmor.shの内容が更新されないように対応
+以下を.bashrcに追加
+
+```shell
+export TERMINAL_BROWSER_SKIP_APPARMOR=1
+```
+
 ## Common Commands
 
 - `make setup`: one-shot environment bootstrap
