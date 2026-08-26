@@ -134,6 +134,10 @@ require("lazy").setup({
     ft = { "markdown" },
   },
   {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
   },
