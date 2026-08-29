@@ -58,6 +58,11 @@ vim.keymap.set('n', '<leader>at', '<cmd>CodeCompanionCLI<CR>', { noremap = true,
 vim.keymap.set('v', 'ga', '<cmd>CodeCompanionChat Add<CR>', { noremap = true, silent = true, desc = 'CodeCompanion: 選択範囲をチャットに追加' })
 vim.cmd([[cab cc CodeCompanion]])
 
+-- skkeleton (SKK 日本語入力)
+-- <Plug> マッピングなので remap = true が要る (vim.keymap.set の既定は noremap)。
+vim.keymap.set({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-toggle)',
+  { remap = true, desc = 'skkeleton: 日本語入力をトグル' })
+
 -- Statusline settings
 -- Use global statusline (Neovim 0.7+)
 vim.o.laststatus = 3
@@ -75,6 +80,14 @@ local function mode_label()
     ['!'] = "!", t = "T",
   }
   return map[m] or m
+end
+
+-- skkeleton が有効なときだけ、ひらがな/カタカナ等のモードを出す。
+-- g:skkeleton#mode は skkeleton-mode-changed で更新されるので RPC は不要。
+local function skk_label()
+  local map = { hira = 'あ', kata = 'ア', hankata = 'ｱ', zenkaku = 'Ａ', abbrev = 'a/A' }
+  local label = map[vim.g['skkeleton#mode'] or '']
+  return label and (' [' .. label .. ']') or ''
 end
 
 local function recording_label()
@@ -106,7 +119,7 @@ end
 
 _G.Statusline = function()
   return table.concat({
-    ' ', mode_label(), recording_label(), ' ', file_path(), flags(), ' ',
+    ' ', mode_label(), skk_label(), recording_label(), ' ', file_path(), flags(), ' ',
     '%=', -- right align
     right_info(), ' '
   })

@@ -167,6 +167,31 @@ The Alacritty config assumes Hack Nerd Font. Install via Homebrew Cask on macOS 
 
 Download Page https://www.nerdfonts.com/font-downloads
 
+## SKK (skkeleton)
+
+Neovim の日本語入力は [skkeleton](https://github.com/vim-skk/skkeleton) を使う。
+denops.vim 経由で Deno 上に動くため、mise の `deno` が入っていれば追加の導入は不要。
+
+変換には SKK 辞書が必要。`makers setup` に含まれているが、単体で入れる場合は:
+
+```bash
+makers set-skk-dict
+```
+
+L 辞書が `~/.config/skk/SKK-JISYO.L` に展開される（約 4.5MB のため dotfiles には含めない）。
+ユーザー辞書は skkeleton の既定どおり `~/.skkeleton` に作られる。
+
+初回起動時は denops が Deno の依存を取得するため少し時間がかかる。
+また skkeleton は denops.vim の import map 対応（2025 年後半以降）を要求するので、
+`Failed to load plugin 'skkeleton': ... not in import map` が出る場合は
+`:Lazy update denops.vim` で denops.vim を更新する。
+
+### Usage
+
+- `<C-j>`: 日本語入力のトグル（insert / cmdline）
+- 大文字始まりで変換ポイント、`<Space>` で変換、`<C-g>` でキャンセル
+- statusline に現在のモード（`[あ]` / `[ア]` など）が出る
+
 ## Ubuntu Mozc settings
 
 ### input mode default hiragana 

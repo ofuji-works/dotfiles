@@ -3,7 +3,8 @@ dependencies = [
   "brew-tap",
   "install-packages",
   "git-settings",
-  "set-codecompanion"
+  "set-codecompanion",
+  "set-skk-dict"
 ]
 
 [tasks.brew-tap]
@@ -30,6 +31,10 @@ args = [
   "-g",
   "@agentclientprotocol/claude-agent-acp"
 ]
+
+# skkeleton が変換に使う SKK 辞書 (L 辞書) を取得する
+[tasks.set-skk-dict]
+command = "./scripts/setting-skk.sh"
 
 [tasks.git-settings]
 command = "./scripts/setting-git.sh"

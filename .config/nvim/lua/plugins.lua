@@ -177,6 +177,13 @@ require("lazy").setup({
       "vim-denops/denops.vim",
     },
   },
+  -- SKK 日本語入力
+  {
+    "vim-skk/skkeleton",
+    dependencies = {
+      "vim-denops/denops.vim",
+    },
+  },
 })
 
 
@@ -189,3 +196,4 @@ require("plugins/rust-tools");
 require("plugins/cmp");
 require("plugins/gitsigns");
 require("plugins/codecompanion");
+require("plugins/skkeleton");
