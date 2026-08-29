@@ -1,4 +1,1 @@
 .DS_Store
-
-# SKK 辞書はダウンロード生成物 (scripts/setting-skk.sh で取得)
-.config/skk/
