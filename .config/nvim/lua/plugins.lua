@@ -160,6 +160,11 @@ require("lazy").setup({
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },
+    opts = {
+      -- codecompanion のチャットバッファは filetype=codecompanion なので、
+      -- 既定の { "markdown" } のままではレンダリングが走らない。
+      file_types = { "markdown", "codecompanion" },
+    },
   },
   {
     "lukas-reineke/indent-blankline.nvim",
