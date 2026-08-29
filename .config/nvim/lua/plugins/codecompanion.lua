@@ -89,21 +89,105 @@ local function notify(title, body, urgency)
   vim.system(cmd, { detach = true })
 end
 
+-- 送信フィードバック --------------------------------------------------------
+-- ACP アダプタは最初のトークンが返るまで数秒かかることがあり、送信が通ったのか
+-- 画面から判別できない。チャットウィンドウの winbar にスピナー + 状態 + 経過秒を
+-- 出して「今どこで待っているか」を可視化する。
+-- laststatus=3 (グローバル statusline) なので、per-window に出せるのは winbar だけ。
+
+vim.api.nvim_set_hl(0, "CodeCompanionProgress", { link = "DiagnosticInfo", default = true })
+
+local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+
+-- wins: winbar を書き換えたウィンドウ -> 元の winbar 値
+local progress = { timer = nil, bufnr = nil, label = "", started = 0, frame = 0, wins = {} }
+
+local function progress_render()
+  local frame = spinner[(progress.frame % #spinner) + 1]
+  local sec = math.floor((vim.uv.now() - progress.started) / 1000)
+  local text = string.format("%%#CodeCompanionProgress# %s %s (%d秒)%%*", frame, progress.label, sec)
+  -- チャットウィンドウは応答中に閉じて開き直せるので、毎 tick 走査して拾い直す
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_buf(win) == progress.bufnr then
+      if progress.wins[win] == nil then
+        progress.wins[win] = vim.wo[win].winbar
+      end
+      vim.wo[win].winbar = text
+    end
+  end
+end
+
+local function progress_stop()
+  if progress.timer then
+    progress.timer:stop()
+    progress.timer:close()
+    progress.timer = nil
+  end
+  for win, saved in pairs(progress.wins) do
+    if vim.api.nvim_win_is_valid(win) then
+      vim.wo[win].winbar = saved
+    end
+  end
+  progress.wins = {}
+  progress.bufnr = nil
+end
+
+local function progress_start(bufnr, label)
+  progress_stop()
+  progress.bufnr = bufnr
+  progress.label = label
+  progress.started = vim.uv.now()
+  progress.frame = 0
+  progress_render()
+  progress.timer = vim.uv.new_timer()
+  progress.timer:start(100, 100, vim.schedule_wrap(function()
+    if not progress.bufnr or not vim.api.nvim_buf_is_valid(progress.bufnr) then
+      return progress_stop()
+    end
+    progress.frame = progress.frame + 1
+    progress_render()
+  end))
+end
+
+-- 走っているときだけラベルを差し替える。経過秒はターン開始からの通算にしたいので
+-- リセットしない。bufnr が一致しないイベント (inline / 別チャット) は無視される。
+local function progress_label(bufnr, label)
+  if progress.bufnr and progress.bufnr == bufnr then
+    progress.label = label
+    progress_render()
+  end
+end
+
 local ai_group = vim.api.nvim_create_augroup("ai_notify", { clear = true })
-local pending = {}   -- どのイベントが「待ち」を開始したかを覚える
 
 vim.api.nvim_create_autocmd("User", {
   group = ai_group,
   pattern = "CodeCompanionChatSubmitted",
-  callback = function() pending.chat = vim.uv.now() end,
+  callback = function(args)
+    progress_start(args.data.bufnr, "送信しました — 応答待ち")
+  end,
+})
+
+-- 最初のトークンが届いたら「待ち」から「応答中」へ。ツール呼び出しを挟むと
+-- 1 ターンで複数リクエストが飛ぶので、その都度ラベルが往復する。
+vim.api.nvim_create_autocmd("User", {
+  group = ai_group,
+  pattern = "CodeCompanionRequestStreaming",
+  callback = function(args) progress_label(args.data.bufnr, "応答中") end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  group = ai_group,
+  pattern = "CodeCompanionToolsStarted",
+  callback = function(args) progress_label(args.data.bufnr, "ツール実行中") end,
 })
 
 vim.api.nvim_create_autocmd("User", {
   group = ai_group,
   pattern = "CodeCompanionChatDone",
   callback = function()
-    local sec = pending.chat and math.floor((vim.uv.now() - pending.chat) / 1000) or nil
-    pending.chat = nil
+    local sec = progress.bufnr and math.floor((vim.uv.now() - progress.started) / 1000) or nil
+    progress_stop()
     notify("Claude — 返答が来ました", sec and ("待ち時間 " .. sec .. "秒") or "", "low")
   end,
 })
@@ -112,7 +196,8 @@ vim.api.nvim_create_autocmd("User", {
 vim.api.nvim_create_autocmd("User", {
   group = ai_group,
   pattern = "CodeCompanionToolApprovalRequested",
-  callback = function()
+  callback = function(args)
+    progress_label(args.data.bufnr, "承認待ち")
     notify("Claude — 承認を待っています", "ツールの実行許可が必要です", "critical")
   end,
 })
@@ -124,7 +209,7 @@ vim.api.nvim_create_autocmd("User", {
   group = ai_group,
   pattern = "CodeCompanionChatStopped",
   callback = function(args)
-    pending.chat = nil
+    progress_stop()
     notify("Claude — 中断/失敗", tostring(args.match), "critical")
   end,
 })
