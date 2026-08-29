@@ -7,4 +7,5 @@ gh = "latest"
 zig = "0.14.1"
 go = "latest"
 python = "latest"
+java = "temurin-17.0.19+10"
 
