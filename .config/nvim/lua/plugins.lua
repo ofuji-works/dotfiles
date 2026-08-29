@@ -28,6 +28,9 @@ require("lazy").setup({
       vim.cmd.colorscheme("tokyonight-night")
     end,
   },
+  {
+    "vim-jp/vimdoc-ja",
+  },
   -- rust
   {
     'rust-lang/rust.vim',
@@ -66,6 +69,27 @@ require("lazy").setup({
         desc = "Apply glyph-palette on fern/nerdtree/startify",
       })
     end
+  },
+  -- treesitter (codecompanion / render-markdown が依存)
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      -- markdown / markdown_inline は Neovim 同梱だが、codecompanion の
+      -- prompt library は yaml パーサを必要とする
+      require("nvim-treesitter").install({ "markdown", "markdown_inline", "yaml" })
+    end,
+  },
+  -- AI Agent
+  {
+    "olimorris/codecompanion.nvim",
+    version = "^19.0.0", -- 破壊的変更を避けるためメジャーで固定
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
   },
   {
     'nvim-telescope/telescope.nvim',
@@ -148,18 +172,9 @@ require("lazy").setup({
     "sindrets/diffview.nvim",
   },
   {
-    "vim-jp/vimdoc-ja",
-  },
-  {
     "lambdalisue/guise.vim",
     dependencies = {
       "vim-denops/denops.vim",
-    },
-  },
-  {
-    "greggh/claude-code.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
     },
   },
 })
@@ -173,4 +188,4 @@ require("plugins/noice");
 require("plugins/rust-tools");
 require("plugins/cmp");
 require("plugins/gitsigns");
-require("plugins/claude-code");
+require("plugins/codecompanion");

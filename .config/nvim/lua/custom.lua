@@ -50,8 +50,13 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, { group = diagnostic_hover_augroup
 -- cmp
 vim.opt.completeopt = "menu,menuone,noselect"
 
--- claude
-vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })
+-- codecompanion
+vim.keymap.set({ 'n', 'v' }, '<leader>aa', '<cmd>CodeCompanionActions<CR>', { noremap = true, silent = true, desc = 'CodeCompanion: アクションパレット' })
+vim.keymap.set({ 'n', 'v' }, '<leader>ac', '<cmd>CodeCompanionChat Toggle<CR>', { noremap = true, silent = true, desc = 'CodeCompanion: チャットをトグル' })
+vim.keymap.set({ 'n', 'v' }, '<leader>ai', '<cmd>CodeCompanion<CR>', { noremap = true, silent = true, desc = 'CodeCompanion: インライン編集' })
+vim.keymap.set('n', '<leader>at', '<cmd>CodeCompanionCLI<CR>', { noremap = true, silent = true, desc = 'CodeCompanion: CLI エージェント' })
+vim.keymap.set('v', 'ga', '<cmd>CodeCompanionChat Add<CR>', { noremap = true, silent = true, desc = 'CodeCompanion: 選択範囲をチャットに追加' })
+vim.cmd([[cab cc CodeCompanion]])
 
 -- Statusline settings
 -- Use global statusline (Neovim 0.7+)

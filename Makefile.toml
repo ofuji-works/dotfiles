@@ -2,7 +2,8 @@
 dependencies = [
   "brew-tap",
   "install-packages",
-  "git-settings"
+  "git-settings",
+  "set-codecompanion"
 ]
 
 [tasks.brew-tap]
@@ -17,7 +18,17 @@ args = [
   "mise",
   "docker",
   "docker-compose",
-  "hashicorp/tap/terraform"
+  "hashicorp/tap/terraform",
+  "tree-sitter-cli"
+]
+
+# codecompanion.nvim が Claude Code を ACP 経由で使うためのブリッジ
+[tasks.set-codecompanion]
+command = "npm"
+args = [
+  "install",
+  "-g",
+  "@agentclientprotocol/claude-agent-acp"
 ]
 
 [tasks.git-settings]
