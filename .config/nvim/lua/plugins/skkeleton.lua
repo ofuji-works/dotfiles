@@ -17,6 +17,14 @@ vim.api.nvim_create_autocmd("User", {
   group = group,
   pattern = "skkeleton-initialize-pre",
   callback = function()
+    -- <C-j> を skkeleton の乗っ取り対象キーから外す。
+    -- 既定では有効中の <C-j> がバッファローカルに再マップされ、SKK 標準の
+    -- 「確定 (kakutei)」に消費されてトグルが効かなくなる。外しておくと
+    -- 下の toggle マッピングが有効中もそのまま走る。
+    vim.g["skkeleton#mapped_keys"] = vim.tbl_filter(function(key)
+      return key ~= "<C-j>"
+    end, vim.fn["skkeleton#get_default_mapped_keys"]())
+
     if vim.fn.filereadable(global_dict) == 0 then
       vim.notify(
         "skkeleton: 辞書が見つかりません (" .. global_dict .. ")\n"
@@ -67,6 +75,34 @@ vim.api.nvim_create_autocmd("User", {
     vim.g["skkeleton#mode"] = ""
   end,
 })
+
+-- 変換中 (▼) や見出し語入力中 (▽) でも 1 打で無効化する。
+-- skkeleton#handle() は opts.key を必ず埋めるため、<Plug>(skkeleton-disable) や
+-- <Plug>(skkeleton-toggle) 経由だと denops 側の disable が「キー入力」と見なされ、
+-- 直接入力状態以外では確定処理に読み替えられて無効化まで進まない。
+-- そのため key を持たない opts で denops を直接叩く。
+local function force_disable()
+  local ret = vim.fn["denops#request"](
+    "skkeleton",
+    "handle",
+    { "disable", vim.empty_dict(), vim.fn["skkeleton#vim_status"]() }
+  )
+  vim.g["skkeleton#state"] = ret.state
+  -- 未確定文字の確定はバッファへのキー列として返るので流し込む。
+  if ret.result ~= "" then
+    vim.fn.feedkeys(ret.result, "nit")
+  end
+  vim.fn["skkeleton#doautocmd"]()
+end
+
+vim.keymap.set({ "i", "c" }, "<C-j>", function()
+  if vim.g["skkeleton#enabled"] then
+    force_disable()
+  else
+    -- 有効化は denops 未起動でも待ってくれる skkeleton#handle() に任せる。
+    vim.fn["skkeleton#handle"]("enable", vim.empty_dict())
+  end
+end, { desc = "skkeleton: 日本語入力をトグル" })
 
 -- statusline の SKK 表示を即時更新する。
 vim.api.nvim_create_autocmd("User", {
