@@ -59,6 +59,12 @@ require("codecompanion").setup({
         layout = "vertical",
         position = "right",
         width = 0.4,
+        -- 既定 (breakindent/linebreak/wrap) は deep merge で残る。
+        -- グローバルの number が効いてしまうのでチャットだけ切る。
+        opts = {
+          number = false,
+          relativenumber = false,
+        },
       },
     },
   },
