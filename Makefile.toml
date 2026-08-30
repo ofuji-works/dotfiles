@@ -36,6 +36,10 @@ args = [
 [tasks.set-skk-dict]
 command = "./scripts/setting-skk.sh"
 
+# OS の日本語入力を fcitx5 + SKK に切り替える (Ubuntu/GNOME 専用のため setup には含めない)
+[tasks.set-fcitx5]
+command = "./scripts/setting-fcitx5.sh"
+
 [tasks.git-settings]
 command = "./scripts/setting-git.sh"
 

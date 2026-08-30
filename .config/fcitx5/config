@@ -1,0 +1,11 @@
+[Hotkey/TriggerKeys]
+0=Control+space
+1=Zenkaku_Hankaku
+
+[Hotkey/EnumerateForwardKeys]
+0=Control+Shift+space
+
+[Behavior]
+# Start in the plain keyboard layout; Ctrl+Space activates SKK.
+ActiveByDefault=False
+ShowInputMethodInformation=True
